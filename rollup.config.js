@@ -3,6 +3,8 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import replace from '@rollup/plugin-replace';
+import svelte from 'rollup-plugin-svelte';
+import autoPreprocess from 'svelte-preprocess';
 import webWorkerLoader from 'rollup-plugin-web-worker-loader';
 
 export default {
@@ -23,11 +25,13 @@ export default {
      */
     replace({
       delimiters: ['', ''],
-      include: "node_modules/chokidar/**/*.js",
+      include: 'node_modules/chokidar/**/*.js',
 
-      "require('fsevents')": "null",
+      "require('fsevents')": 'null',
       "require('fs')": "require('original-fs')",
     }),
+
+    svelte({ emitCss: false, preprocess: autoPreprocess() }),
 
     typescript(),
     nodeResolve({ browser: true }),
